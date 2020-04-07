@@ -1,0 +1,31 @@
+{
+  "name": "calc-animate-val",
+  "version": "1.0.6",
+  "description": "根据总时长和当前时间来计算动画元素每次执行时的位置。需要在requestAnimationFrame的callback中使用（取得当前时间）。",
+  "main": "index.js",
+  "types": "types/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c rollup.config.js",
+    "release": "npm run build && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lei4519/calcAnimateVal.git"
+  },
+  "keywords": [
+    "动画",
+    "easing",
+    "animate"
+  ],
+  "author": "Lay4519",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lei4519/calcAnimateVal/issues"
+  },
+  "homepage": "https://github.com/lei4519/calcAnimateVal#readme",
+  "devDependencies": {
+    "rollup-plugin-typescript2": "^0.27.0",
+    "typescript": "^3.8.3"
+  }
+}

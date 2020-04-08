@@ -1,11 +1,10 @@
 {
   "name": "calc-animate-val",
-  "version": "1.0.6",
-  "description": "根据总时长和当前时间来计算动画元素每次执行时的位置。需要在requestAnimationFrame的callback中使用（取得当前时间）。",
-  "main": "index.js",
-  "types": "types/index.d.ts",
+  "version": "1.1.0",
+  "description": "根据总时长、当前时间、缓动函数来计算动画元素每次执行时所在的位置。",
+  "main": "dist/index.js",
+  "typings": "types/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c rollup.config.js",
     "release": "npm run build && npm publish"
   },

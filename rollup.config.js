@@ -1,9 +1,18 @@
 import typescript from 'rollup-plugin-typescript2'
-export default {
+export default [{
   input: 'src/index.ts',
   output: {
-    file: 'index.js',
+    file: 'dist/index.esm.js',
     format: 'esm'
   },
   plugins: [typescript()]
-};
+},
+{
+  input: 'src/index.ts',
+  output: {
+    file: 'dist/index.js',
+    format: 'umd',
+    name: 'calcAnimateVal'
+  },
+  plugins: [typescript()]
+}];

@@ -1,11 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      .run-ball {
+        width: 120px;
+        height: 120px;
+        line-height: 120px;
+        text-align: center;
+        background-color: aquamarine;
+        border-radius: 50%;
+        transform: translateX(0);
+        margin: 50px 0;
+        color: rgb(31, 27, 27);
+      }
+      .select {
+        padding: 40px;
+        border-radius: 4px;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+        width: 300px;
+        height: 500px;
+        position: fixed;
+        right: 10%;
+        top: 50%;
+        transform: translateY(-50%);
+        overflow-y: auto;
+      }
+      .select li {
+        list-style: none;
+        padding-bottom: 20px;
+        cursor: pointer;
+      }
+      .select input,
+      .select label {
+        cursor: pointer;
+      }
+      .ballBox {
+        margin: 50px;
+        width: 620px;
+        border-right: 1px solid #000;
+        border-left: 1px solid #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="select">
+        <ul>
+          <li v-for="(val, i) in easingsNames" :key="i">
+            <input
+              :value="val"
+              name="timing"
+              :id="val"
+              type="radio"
+              :checked="activeIdx === i"
+              @change="onChange(i)"
+            />
+            <label :for="val">{{ val }}</label>
+          </li>
+        </ul>
+      </div>
+      <div ref="ballBox" class="ballBox">
+        <template v-if="activeIdx === 0">
+          <div
+          :data-t="val"
+            class="run-ball"
+            v-for="(val, i) in easingsNames"
+            :key="i"
+            v-if="i !== 0"
+          >
+            {{ val }}
+          </div>
+        </template>
+        <div class="run-ball" :data-t="easingsNames[activeIdx]" v-else>{{easingsNames[activeIdx]}}</div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://lei4519.github.io/calcAnimateVal/dist/index.js"></script>
+    <script>
+      new Vue({
+        el: document.getElementById('app'),
+        mounted() {
+          this.dones = []
+          this.onChange(0)
+        },
+        methods: {
+          onChange(i) {
+            this.dones.forEach(fn => fn())
+            this.activeIdx = i
+            this.$nextTick(() => {
+              Array.from(this.$refs.ballBox.children).forEach(ele => {
+                const { run, done } = calcAnimateVal({
+                  position: [0, 500],
+                  duration: 5000,
+                  timingFn: ele.dataset.t,
+                  running: (x) => {
+                    ele.style.transform = `translateX(${x}px)`
+                  },
+                  done: () => run()
+                })
+                this.dones.push(done)
+                run()
+              })
+            })
+          }
+        },
+        data: {
+          activeIdx: -1,
+          easingsNames: [
+            '全部展示',
+            'easeInQuad',
+            'easeOutQuad',
+            'easeInOutQuad',
+            'easeInCubic',
+            'easeOutCubic',
+            'easeInOutCubic',
+            'easeInQuart',
+            'easeOutQuart',
+            'easeInOutQuart',
+            'easeInQuint',
+            'easeOutQuint',
+            'easeInOutQuint',
+            'easeInSine',
+            'easeOutSine',
+            'easeInOutSine',
+            'easeInExpo',
+            'easeOutExpo',
+            'easeInOutExpo',
+            'easeInCirc',
+            'easeOutCirc',
+            'easeInOutCirc',
+            'easeOutBounce',
+            'easeInBack',
+            'easeOutBack',
+            'easeInOutBack',
+            'elastic',
+            'swingFromTo',
+            'swingFrom',
+            'swingTo',
+            'bounce',
+            'bouncePast',
+            'easeFromTo',
+            'easeFrom',
+            'easeTo',
+            'linear',
+            'sinusoidal',
+            'reverse',
+            'mirror',
+            'flicker',
+            'wobble',
+            'pulse',
+            'blink',
+            'spring',
+            'none',
+            'full'
+          ]
+        }
+      })
+      // cSelectElement()
+      // cExampleElement()
+      function cSelectElement() {
+        const fragment = document.createDocumentFragment()
+        easingsNames.forEach((opt) => {
+          const input = document.createElement('input')
+          input.setAttribute('type', 'radio')
+          input.setAttribute('value', opt)
+          input.setAttribute('name', 'timing')
+          const li = document.createElement('li')
+          li.innerText = opt
+          li.appendChild(input)
+          fragment.appendChild(li)
+        })
+        const select = document.getElementById('select')
+        select.appendChild(fragment)
+      }
+      function cExampleElement(val = '全部展示') {
+        if (val === '全部展示') {
+          const divs = []
+          const fragment = document.createDocumentFragment()
+          easingsNames.forEach((opt, i) => {
+            if (i === 0) return
+            const div = document.createElement('div')
+            div.className = 'run-ball'
+            div.innerHTML = opt
+            fragment.appendChild(div)
+            const { run } = calcAnimateVal({
+              position: [0, 500],
+              duration: 5000,
+              timingFn: opt,
+              running: (x) => {
+                div.style.transform = `translateX(${x}px)`
+              },
+              done: () => run()
+            })
+            divs.push(run)
+          })
+          document.body.appendChild(fragment)
+          divs.forEach((run) => run())
+        } else {
+        }
+      }
+      // calcAnimateVal({
+      //   position: [0, 500],
+      //   duration: 1000,
+      //   timingFn: 'linear',
+      //   running: (x) => {
+      //     div.style.transform = `translateX(${x}px)`
+      //   }
+      // }).run()
+    </script>
+  </body>
 </html>

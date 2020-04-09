@@ -38,7 +38,7 @@ interface CalcAnimateVal {
   - timingFn?: EasingsName | easingFn
     - defalut: 'easeOutQuint'
     - 缓动函数的名称，也可以传入函数来自定义缓动函数
-    - 点击查看内置缓动函数
+    - [点击查看内置缓动函数](https://lei4519.github.io/calcAnimateVal/example/timing.html)
   - delay?: number
     - defalut: 0
     - 动画延时时间
@@ -58,6 +58,6 @@ interface CalcAnimateVal {
 - setRAF: (fn) => fn
   - calcAnimateVal的运行是依赖于requestAnimationFrame函数的，在不支持requestAnimationFrame的平台，可以调用此方法自行polyfill requestAnimationFrame。
   - 因为calcAnimateVal 是基于当前时间和总时间进行数据计算，所以 polyfill函数要在每次执行时传入当前的时间。
-  - 点此查看使用setTimeout polyfill
+  - [点此查看使用setTimeout polyfill](https://lei4519.github.io/calcAnimateVal/example/setRAF.html)
 - setCancelRAF: (fn) => fn
   - 设置polyfill cancelAnimationFrame函数
